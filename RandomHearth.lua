@@ -38,7 +38,7 @@ local rhToys = {
 	{206195, "Path of the Naaru"},
 	{212337, "Stone of the Hearth"},
 	{210455, "Draenic Hologem"},
-	}
+}
 
 --------------------------------------------------------------------
 -- Options panel
@@ -313,7 +313,7 @@ end
 -- Set random Hearthstone
 --------------------------------------------------------------------
 function setRandom()
-	if not InCombatLockdown() and #rhList > 0 then
+	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) and #rhList > 0 then
 		local rnd = math.random(1,count)
 		local item = Item:CreateFromItemID(rhList[rnd])
 		item:ContinueOnItemLoad(function()
@@ -331,7 +331,7 @@ end
 -- Create or update global macro
 --------------------------------------------------------------------
 function updateMacro(name,icon)
-	if not InCombatLockdown() then
+	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
 		local macroIndex = GetMacroIndexByName("Random Hearth")
 		if macroIndex > 0 then
 			EditMacro(macroIndex, "Random Hearth", icon, "#showtooltip " .. name .. src)
