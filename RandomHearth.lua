@@ -1,4 +1,4 @@
-local rhList, count, src, rhOverrideChk, rhOverride
+local rhList, count, src, rhOverrideChk, allCovenant, validCovHearths
 local rhCheckButtons = {}
 local addon = ...
 
@@ -11,11 +11,11 @@ local addon = ...
 -- of the item page on Wowhead.com
 --------------------------------------------------------------------
 local rhToys = {
+	{184353, "Kyrian Hearthstone"},
+	{183716, "Venthyr Sinstone"},
 	{180290, "Night Fae Hearthstone"},
 	{182773, "Necrolord Hearthstone"},
-	{183716, "Venthyr Sinstone"},
-	{184353, "Kyrian Hearthstone"},
-	{54452, "Ethereal Portal"},
+ 	{54452, "Ethereal Portal"},
 	{64488, "The Innkeeper's Daughter"},
 	{93672, "Dark Portal"},
 	{142542, "Tome of Town Portal"},
@@ -64,11 +64,19 @@ local function listGenerate()
 	rhList = {}
 	count = 0
 	local covenantHearths = {
-		{1,184353}, --Kyrian
-		{2,183716}, --Venthyr
-		{3,180290}, --Night Fae
-		{4,182773}  --Necrolord
+		-- {Criteria index, Covenant index, Covenant toy, Enabled}
+		{1,1,184353,false}, --Kyrian
+		{4,2,183716,false}, --Venthyr
+		{3,3,180290,false}, --Night Fae
+		{2,4,182773,false}  --Necrolord
 	}
+	for i,v in pairs(covenantHearths) do
+		if select(3,GetAchievementCriteriaInfo(15646,v[1])) == true then
+			covenantHearths[i][4] = true
+		elseif C_Covenants.GetActiveCovenantID() ~= v[2] then
+			rhCheckButtons[i].Text:SetText("  " .. rhToys[i][2] .. "  |cff777777(Renown locked)|r")
+		end
+	end
 
 	if select(4,GetAchievementInfo(15241)) == true then
 		if rhOverrideChk == true then
@@ -84,8 +92,10 @@ local function listGenerate()
 				local addToy = true
 				-- Check for Covenant
 				for _,v in pairs(covenantHearths) do
-					if rhOptions[i][1] == v[2] then
-						if allCovenant == false and C_Covenants.GetActiveCovenantID() ~= v[1] then
+					if rhOptions[i][1] == v[3] then
+						if v[4] == false and C_Covenants.GetActiveCovenantID() ~= v[2] then
+							addToy = false
+						elseif allCovenant == false and C_Covenants.GetActiveCovenantID() ~= v[2] then
 							addToy = false
 							break
 						end
@@ -113,7 +123,6 @@ local function listGenerate()
 	else 
 		src = "\n/click rhButton 1\n/click rhButton LeftButton 1" 
 	end
-	print ("List generated")
 end
 
 -- Create or update global macro
@@ -189,7 +198,6 @@ local rhCategory = Settings.RegisterCanvasLayoutCategory(rhOptionsPanel, "Random
 Settings.RegisterAddOnCategory(rhCategory)
 
 -- Title
-
 rhTitle:SetPoint("TOPLEFT", 10, -10)
 rhTitle:SetWidth(SettingsPanel.Container:GetWidth()-35)
 rhTitle:SetHeight(1)
@@ -206,7 +214,6 @@ rhOptionsPanel.Thanks:SetFont("Fonts\\FRIZQT__.TTF", 9)
 rhOptionsPanel.Thanks:SetJustifyH("RIGHT")
 
 -- Description
-
 rhDesc:SetPoint("TOPLEFT", 20, -40)
 rhDesc:SetWidth(SettingsPanel.Container:GetWidth()-35)
 rhDesc:SetHeight(1)
@@ -216,19 +223,16 @@ rhDesc.text:SetText("Add or remove hearthstone toys from rotation")
 rhDesc.text:SetFont("Fonts\\FRIZQT__.TTF", 14)
 
 -- Scroll Frame
-
 rhOptionsScroll:SetPoint("TOPLEFT", 5, -60)
 rhOptionsScroll:SetPoint("BOTTOMRIGHT", -25, 100)
 
 -- Divider
-
 rhDivider:SetStartPoint("BOTTOMLEFT", 20, -10)
 rhDivider:SetEndPoint("BOTTOMRIGHT", 0, -10)
 rhDivider:SetColorTexture(0.25,0.25,0.25,1)
 rhDivider:SetThickness(1.2)
 
 -- Scroll Frame child
-
 rhOptionsScroll:SetScrollChild(rhScrollChild)
 rhScrollChild:SetWidth(SettingsPanel.Container:GetWidth()-35)
 rhScrollChild:SetHeight(1)
@@ -250,7 +254,6 @@ for i = 1, #rhToys do
 end
 
 -- Select All button
-
 rhSelectAll:SetPoint("BOTTOMLEFT", 20, 50)
 rhSelectAll:SetSize(100,25)
 rhSelectAll:SetText("Select all")
@@ -261,7 +264,6 @@ rhSelectAll:SetScript("OnClick", function(self)
 end)
 
 -- Deselect All button
-
 rhDeselectAll:SetPoint("BOTTOMLEFT", 135, 50)
 rhDeselectAll:SetSize(100,25)
 rhDeselectAll:SetText("Deselect all")
@@ -272,17 +274,15 @@ rhDeselectAll:SetScript("OnClick", function(self)
 end)
 
 -- Covenant override checkbox
-
 rhOverride:SetPoint("BOTTOMLEFT", 20, 20)
 rhOverride:SetSize(25,25)
-rhOverride.Text:SetText("  Coventant Hearth override")
+rhOverride.Text:SetText("  Active Covenant only")
 rhOverride.Text:SetTextColor(1,1,1,1)
 rhOverride.Text:SetFont("Fonts\\FRIZQT__.TTF", 13)
 rhOverride.Extratext = rhOverride:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rhOverride.Extratext:SetPoint("TOPLEFT", rhOverride, 32, -25)
-rhOverride.Extratext:SetText("Will only allow current covenant hearthstone if ticked")
+rhOverride.Extratext:SetText("Will only allow player's current Covenant hearthstone if ticked")
 rhOverride.Extratext:SetFont("Fonts\\FRIZQT__.TTF", 12)
-
 
 rhListener:RegisterEvent("ADDON_LOADED")
 rhListener:SetScript("OnEvent", function(self, event, arg1)
