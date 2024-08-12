@@ -423,7 +423,7 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 				end
 			end
 			if chk == 0 then
-				rhOptions.chkStatus[i] = nil
+				rhDB.chkStatus[i] = nil
 			end
 		end
 
