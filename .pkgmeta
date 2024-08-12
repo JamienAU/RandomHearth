@@ -1,0 +1,7 @@
+package-as: RandomHearth
+
+move-folders:
+    RandomHearth/src: RandomHearth
+
+ignore:
+    - README.md
