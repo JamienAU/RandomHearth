@@ -51,7 +51,7 @@ local rhToys = {
 -- DO NOT EDIT BELOW HERE
 -- Unless you want to, I'm not your supervisor.
 
-local rhList, count, macroIcon, macroName, useDal, useGar
+local rhList, count, macroIcon, macroName
 local rhCheckButtons = {}
 local addon = ...
 -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -133,25 +133,6 @@ local function listGenerate()
 			end
 		end
 	end
-
-	-- Check usability of Dalaran Hearthstone
-	if PlayerHasToy(140192) then
-		if rhDB.settings.dalOpt and C_ToyBox.IsToyUsable(140192) then
-			useDal = true
-		else
-			useDal = false
-		end
-	end
-
-	-- Check usability of Garrison Hearthstone
-	if PlayerHasToy(110560) then
-		if rhDB.settings.garOpt and C_ToyBox.IsToyUsable(110560) then
-			useGar = true
-		else
-			useGar = false
-		end
-	end
-
 end
 
 -- Set random Hearthstone
@@ -268,9 +249,9 @@ end)
 rhBtn:SetScript("PreClick", function(self, button, isDown)
 	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
 		--if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
-		if (button == "2" or button == "RightButton") and useDal then
+		if (button == "2" or button == "RightButton") and rhDB.settings.dalOpt then
 			rhBtn:SetAttribute("toy", "Dalaran Hearthstone")
-		elseif (button == "3" or button == "MiddleButton") and useGar then
+		elseif (button == "3" or button == "MiddleButton") and rhDB.settings.garOpt then
 			rhBtn:SetAttribute("toy", "Garrison Hearthstone")
 		else
 			setRandom()
@@ -318,8 +299,8 @@ rhOptionsScroll:SetPoint("TOPLEFT", 5, -60)
 rhOptionsScroll:SetPoint("BOTTOMRIGHT", -25, 150)
 
 -- Divider
-rhDivider:SetStartPoint("BOTTOMLEFT", 20, -10)
-rhDivider:SetEndPoint("BOTTOMRIGHT", 0, -10)
+rhDivider:SetStartPoint("BOTTOMLEFT", rhDivider:GetParent(), 20, -10)
+rhDivider:SetEndPoint("BOTTOMRIGHT", rhDivider:GetParent(), 0, -10)
 rhDivider:SetColorTexture(0.25, 0.25, 0.25, 1)
 rhDivider:SetThickness(1.2)
 
@@ -403,17 +384,10 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 		-- Set savedvariable defaults if first load or compare and update savedvariables with toy list
 		if rhDB == nil then
 			print("Setting up Random Hearthstone DB variables")
+			print("You can now cast Dalaran hearth with right click, and Garrison hearth with middle mouse button.")
+			print("These settings can be changed in the options, type /rh")
 			rhDB = {
-				chkStatus = {},
-				iconOverride = {
-					name = "Random",
-					id = 134400
-				},
-				settings = {
-					{covOverride = false},
-					{dalOpt = true},
-					{garOpt = true}
-				}
+				chkStatus = {}
 			}
 		end
 		rhInitDB(rhDB, "settings", {})
@@ -424,13 +398,12 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 
 		-- Transfer old settings
 		if rhOptions ~= nil then
-			print("Updating old Random Hearthstone variables to new DB format")
-			for i = 1, #rhOptions do
-				table.insert(rhDB.chkStatus, { rhOptions[i][1], rhOptions[i][2] })
+			if type(rhOptions[1][1] == "number") and type(rhOptions[1][2] == "boolean") then
+				print("Updating old Random Hearthstone variables to new DB format")
+				for i = 1, #rhOptions do
+					table.insert(rhDB.chkStatus, { rhOptions[i][1], rhOptions[i][2] })
+				end
 			end
-		end
-		if rhOverrideChk ~= nil then
-			rhDB.covOverride = rhOverrideChk
 		end
 
 		-- Add all toy IDs to savedvariables as enabled
