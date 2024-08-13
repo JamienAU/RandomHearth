@@ -161,7 +161,7 @@ local function updateMacro()
 			macroIcon = "134414"
 			macroText = "#showtooltip Hearthstone\n/use Hearthstone"
 		else
-			macroText = "#showtooltip " .. macroName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB"
+			macroText = "#showtooltip " .. macroName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB\n/click [btn:2]rhB RightButton 1;[btn:3]rhB MiddleButton 1;rhB LeftButton 1"
 		end
 		local macroIndex = GetMacroIndexByName("Random Hearth")
 		if macroIndex > 0 then
