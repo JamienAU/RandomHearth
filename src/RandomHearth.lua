@@ -161,7 +161,8 @@ local function updateMacro()
 			macroIcon = "134414"
 			macroText = "#showtooltip Hearthstone\n/use Hearthstone"
 		else
-			macroText = "#showtooltip " .. macroName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB\n/click [btn:2]rhB RightButton 1;[btn:3]rhB MiddleButton 1;rhB LeftButton 1"
+			-- This needs a proper fix.
+			macroText = "#showtooltip " .. macroName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB 1\n/click [btn:2]rhB RightButton 1;[btn:3]rhB MiddleButton 1;rhB LeftButton 1"
 		end
 		local macroIndex = GetMacroIndexByName("Random Hearth")
 		if macroIndex > 0 then
@@ -248,7 +249,6 @@ rhBtn:SetScript("OnEvent", function(self, event, arg1)
 end)
 rhBtn:SetScript("PreClick", function(self, button, isDown)
 	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
-		--if isDown ~= GetCVarBool("ActionButtonUseKeyDown") then return end
 		if (button == "2" or button == "RightButton") and rhDB.settings.dalOpt then
 			rhBtn:SetAttribute("toy", "Dalaran Hearthstone")
 		elseif (button == "3" or button == "MiddleButton") and rhDB.settings.garOpt then
