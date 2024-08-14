@@ -42,7 +42,6 @@ local rhToys = {
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 -- DO NOT EDIT BELOW HERE
 -- Unless you want to, I'm not your supervisor.
-
 local rhList, count, macroIcon, macroName
 local rhCheckButtons = {}
 local wait = false
@@ -73,16 +72,16 @@ local function updateMacro()
 	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
 		local macroText
 		if #rhList == 0 then
-			print("|cffFF0000No valid Hearthstone toy chosen -|r Setting macro to use Hearthstone")
+			print("|cffFF0000没有选择有效的炉石玩具 -|r 设置宏来使用炉石玩具")
 			macroText = "#showtooltip " .. macroName .. "\n/use " .. macroName
 		else
 			macroText = "#showtooltip " .. macroName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB"
 		end
-		local macroIndex = GetMacroIndexByName("Random Hearth")
+		local macroIndex = GetMacroIndexByName("炉石")
 		if macroIndex > 0 then
-			EditMacro(macroIndex, "Random Hearth", macroIcon, macroText)
+			EditMacro(macroIndex, "炉石", macroIcon, macroText)
 		else
-			CreateMacro("Random Hearth", macroIcon, macroText, nil)
+			CreateMacro("炉石", macroIcon, macroText, nil)
 		end
 	end
 end
@@ -106,7 +105,7 @@ local function listGenerate()
 			if rhDB.L.tList[v[3]] ~= nil then
 				rhCheckButtons[v[3]].Extratext = rhCheckButtons[v[3]]:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 				rhCheckButtons[v[3]].Extratext:SetFont("Fonts\\FRIZQT__.TTF", 13)
-				rhCheckButtons[v[3]].Extratext:SetText("|cff777777(Renown locked)|r")
+				rhCheckButtons[v[3]].Extratext:SetText("|cff777777（盟约锁定）|r")
 				rhCheckButtons[v[3]].Extratext:SetPoint("LEFT", rhCheckButtons[v[3]].Text, "RIGHT", 10, 0)
 			end
 		end
@@ -278,7 +277,7 @@ rhTitle.text:SetFont("Fonts\\FRIZQT__.TTF", 18)
 -- Thanks
 rhOptionsPanel.Thanks = rhOptionsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rhOptionsPanel.Thanks:SetPoint("BOTTOMRIGHT", -5, 5)
-rhOptionsPanel.Thanks:SetText("Thanks for using my addon :)\nNiian - Khaz'Goroth")
+rhOptionsPanel.Thanks:SetText("谢谢你使用我的插件 :)\nNiian - Khaz'Goroth")
 rhOptionsPanel.Thanks:SetFont("Fonts\\FRIZQT__.TTF", 9)
 rhOptionsPanel.Thanks:SetJustifyH("RIGHT")
 
@@ -288,7 +287,7 @@ rhDesc:SetWidth(SettingsPanel.Container:GetWidth() - 35)
 rhDesc:SetHeight(1)
 rhDesc.text = rhDesc:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rhDesc.text:SetPoint("TOPLEFT", rhDesc, 0, 0)
-rhDesc.text:SetText("Add or remove hearthstone toys from rotation")
+rhDesc.text:SetText("在列表中选择启用或禁用循环炉石玩具")
 rhDesc.text:SetFont("Fonts\\FRIZQT__.TTF", 14)
 
 -- Scroll Frame
@@ -327,7 +326,7 @@ end
 -- Select All button
 rhSelectAll:SetPoint("TOPLEFT", rhSelectAll:GetParent(), "BOTTOMLEFT", 20, -20)
 rhSelectAll:SetSize(100, 25)
-rhSelectAll:SetText("Select all")
+rhSelectAll:SetText("全部启用")
 rhSelectAll:SetScript("OnClick", function(self)
 	for i, v in pairs(rhCheckButtons) do
 		v:SetChecked(true)
@@ -337,7 +336,7 @@ end)
 -- Deselect All button
 rhDeselectAll:SetPoint("TOPLEFT", rhDeselectAll:GetParent(), "BOTTOMLEFT", 135, -20)
 rhDeselectAll:SetSize(100, 25)
-rhDeselectAll:SetText("Deselect all")
+rhDeselectAll:SetText("全部禁用")
 rhDeselectAll:SetScript("OnClick", function(self)
 	for i, v in pairs(rhCheckButtons) do
 		v:SetChecked(false)
@@ -351,27 +350,27 @@ rhDropdown.Texture:SetSize(24, 24)
 rhDropdown.Texture:SetPoint("LEFT", rhDropdown, "RIGHT", -10, 2)
 rhDropdown.Extratext = rhDropdown:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rhDropdown.Extratext:SetFont("Fonts\\FRIZQT__.TTF", 13)
-rhDropdown.Extratext:SetText("Macro icon")
+rhDropdown.Extratext:SetText("宏图标")
 rhDropdown.Extratext:SetPoint("RIGHT", rhDropdown, "LEFT", 10, 2)
 
 -- Covenant override checkbox
 rhOverride:SetPoint("TOPLEFT", rhOverride:GetParent(), "BOTTOMLEFT", 15, -50)
 rhOverride:SetSize(25, 25)
-rhOverride.Text:SetText(" Allow player's current Covenant hearthstone only")
+rhOverride.Text:SetText(" 仅允许玩家使用当前盟约的炉石")
 rhOverride.Text:SetTextColor(1, 1, 1, 1)
 rhOverride.Text:SetFont("Fonts\\FRIZQT__.TTF", 13)
 
 -- Dalaran hearth checkbox
 rhDalHearth:SetPoint("TOPLEFT", rhOverride, "BOTTOMLEFT", 0, 0)
 rhDalHearth:SetSize(25, 25)
-rhDalHearth.Text:SetText(" Cast Dalaran Hearth on macro right click")
+rhDalHearth.Text:SetText(" 鼠标右键点击宏使用达拉然炉石")
 rhDalHearth.Text:SetTextColor(1, 1, 1, 1)
 rhDalHearth.Text:SetFont("Fonts\\FRIZQT__.TTF", 13)
 
 -- Garrison hearth checkbox
 rhGarHearth:SetPoint("TOPLEFT", rhDalHearth, "BOTTOMLEFT", 0, 0)
 rhGarHearth:SetSize(25, 25)
-rhGarHearth.Text:SetText(" Cast Garrison Hearth on macro middle click")
+rhGarHearth.Text:SetText(" 鼠标中键点击宏使用要塞炉石")
 rhGarHearth.Text:SetTextColor(1, 1, 1, 1)
 rhGarHearth.Text:SetFont("Fonts\\FRIZQT__.TTF", 13)
 
@@ -382,16 +381,16 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 	if event == "ADDON_LOADED" and arg1 == addon then
 		-- Set savedvariable defaults if first load or compare and update savedvariables with toy list
 		if rhDB == nil then
-			print("Setting up Random Hearthstone DB variables")
-			print("You can now cast Dalaran hearth with right click, and Garrison hearth with middle mouse button.")
-			print("These settings can be changed in the options, type /rh")
+			print("设置随机炉石数据库")
+			print("现在您可以用鼠标右键点击达拉然炉石，用鼠标中键点击要塞炉石。")
+			print("这些设置可以在选项中更改，输入 /rh")
 			rhDB = {}
 		end
 		rhInitDB(rhDB, "settings", {})
 		rhInitDB(rhDB.settings, "covOverride", false)
 		rhInitDB(rhDB.settings, "dalOpt", true)
 		rhInitDB(rhDB.settings, "garOpt", true)
-		rhInitDB(rhDB, "iconOverride", { name = "Random", icon = 134400 })
+		rhInitDB(rhDB, "iconOverride", { name = "随机", icon = 134400 })
 		rhInitDB(rhDB, "L", {})
 		rhInitDB(rhDB.L, "locale", GetLocale())
 
@@ -490,10 +489,10 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 		UIDropDownMenu_Initialize(rhDropdown, function(self)
 			local info = UIDropDownMenu_CreateInfo()
 			info.func, info.topPadding, info.tSizeX, info.tSizeY = rhDropDownOnClick, 3, 15, 15
-			info.arg1, info.text, info.checked, info.icon = "Random", "Random", rhDB.iconOverride.name == "Random",
+			info.arg1, info.text, info.checked, info.icon = "Random", "随机", rhDB.iconOverride.name == "Random",
 				134400
 			UIDropDownMenu_AddButton(info)
-			info.arg1, info.text, info.checked, info.icon = "Hearthstone", "Hearthstone",
+			info.arg1, info.text, info.checked, info.icon = "Hearthstone", "炉石",
 				rhDB.iconOverride.name == "Hearthstone", 134414
 			UIDropDownMenu_AddButton(info)
 			for i = 1, #rhToys do
@@ -515,7 +514,6 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 		end
 	end
 end)
-
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Create slash command
 ------------------------------------------------------------------------------------------------------------------------------------------------------
