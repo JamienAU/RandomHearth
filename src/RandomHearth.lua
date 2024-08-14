@@ -79,10 +79,10 @@ local function updateMacro()
 			macroText = "#showtooltip " .. macroName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB"
 		end
 		local macroIndex = GetMacroIndexByName("Random Hearth")
-		if macroIndex > 0 then
-			EditMacro(macroIndex, _, macroIcon, macroText)
-		else
+		if macroIndex == 0 then
 			CreateMacro("Random Hearth", macroIcon, macroText, nil)
+		else
+			EditMacro(macroIndex, nil, macroIcon, macroText)
 		end
 	end
 end
@@ -178,7 +178,9 @@ local function setRandom()
 		if rhDB.iconOverride.name == "Random" then
 			macroIcon = rhDB.L.tList[rnd]["icon"]
 			local macroIndex = GetMacroIndexByName("Random Hearth")
-			EditMacro(macroIndex, _, macroIcon)
+			if macroIndex ~= 0 then
+				EditMacro(macroIndex, nil, macroIcon)
+			end
 		end
 	end
 end
