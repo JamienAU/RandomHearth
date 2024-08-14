@@ -80,7 +80,7 @@ local function updateMacro()
 		end
 		local macroIndex = GetMacroIndexByName("Random Hearth")
 		if macroIndex > 0 then
-			EditMacro(macroIndex, "Random Hearth", macroIcon, macroText)
+			EditMacro(macroIndex, _, macroIcon, macroText)
 		else
 			CreateMacro("Random Hearth", macroIcon, macroText, nil)
 		end
@@ -175,6 +175,11 @@ local function setRandom()
 	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) and #rhList > 0 then
 		local rnd = rhList[math.random(1, count)]
 		rhBtn:SetAttribute("toy", rhDB.L.tList[rnd]["name"])
+		if rhDB.iconOverride.name == "Random" then
+			macroIcon = rhDB.L.tList[rnd]["icon"]
+			local macroIndex = GetMacroIndexByName("Random Hearth")
+			EditMacro(macroIndex, _, macroIcon)
+		end
 	end
 end
 
