@@ -1,1 +1,5 @@
-Adding localisation data.
+Add localisation
+zhCN - Thank you to [Maple Saint](https://github.com/nanjuekaien1)
+zhTW - Thank you to [BlueNightSky](https://github.com/BlueNightSky)
+
+Fix Draenic Hologem logic
