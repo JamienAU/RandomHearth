@@ -138,7 +138,7 @@ local function listGenerate()
 				-- Check Draenai
 				if i == 210455 then
 					local _, _, raceID = UnitRace("player")
-					if raceID ~= 11 or raceID ~= 30 then
+					if (raceID ~= 11 or raceID ~= 30) then
 						addToy = false
 					end
 				end
