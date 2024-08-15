@@ -1,3 +1,4 @@
 .vscode/
 *.ps1
+*.zip
 pkg/

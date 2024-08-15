@@ -3,5 +3,8 @@ package-as: RandomHearth
 move-folders:
     RandomHearth/src: RandomHearth
 
+manual-changelog:
+    filename: CHANGELOG.txt
+
 ignore:
     - README.md
