@@ -47,3 +47,26 @@ if locale == "zhCN" then
     L["RANDOM"] = "随机"
     L["HEARTHSTONE"] = "炉石"
 end
+
+-- zhTW
+if locale == "zhTW" then
+    L = L or {}
+    L["ADDON_NAME"] = "隨機爐石"
+    L["NO_VALID_CHOSEN"] = "沒有選擇有效的爐石玩具"
+    L["SET_TO_HEARTH"] = "設定巨集來使用爐石玩具"
+    L["MACRO_NAME"] = "隨機爐石"
+    L["RENOWN_LOCKED"] = "誓盟鎖定"
+    L["THANKS"] = "感謝您使用我的插件"
+    L["DESCRIPTION"] = "在清單中選擇使用的循環爐石玩具"
+    L["SELECT_ALL"] = "全選"
+    L["DESELECT_ALL"] = "全不選"
+    L["MACRO_ICON"] = "巨集圖示"
+    L["COV_ONLY"] = "只允許使用當前誓盟的爐石"
+    L["DAL_R_CLICK"] = "滑鼠右鍵點擊使用達拉然爐石"
+    L["GAR_M_CLICK"] = "滑鼠中鍵點擊使用要塞爐石"
+    L["SETUP_1"] = "設定隨機爐石數據庫"
+    L["SETUP_2"] = "現在您可以滑鼠右鍵使用達拉然爐石，滑鼠中鍵使用要塞爐石。"
+    L["SETUP_3"] = "這些設定可以在選項中更改，請輸入"
+    L["RANDOM"] = "隨機"
+    L["HEARTHSTONE"] = "爐石"
+end
