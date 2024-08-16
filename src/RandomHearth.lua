@@ -44,8 +44,7 @@ local rhToys = {
 -- Unless you want to, I'm not your supervisor.
 
 local rhList, count, macroIcon, macroName
-local rhCheckButtons = {}
-local wait = false
+local rhCheckButtons, wait, lastRnd = {}, false, 0
 local addon, RH = ...
 local L = RH.Localisation
 ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -174,6 +173,10 @@ end
 local function setRandom()
 	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) and #rhList > 0 then
 		local rnd = rhList[math.random(1, count)]
+		while rnd == lastRnd do
+			rnd = rhList[math.random(1, count)]
+		end
+		lastRnd = rnd
 		rhBtn:SetAttribute("toy", rhDB.L.tList[rnd]["name"])
 		if rhDB.iconOverride.name == L["RANDOM"] then
 			macroIcon = rhDB.L.tList[rnd]["icon"]
