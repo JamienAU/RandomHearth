@@ -169,6 +169,21 @@ local function listGenerate()
 	end)
 end
 
+--  I had this issue with RandomLure.
+--   Handling the update too quickly causes the character to /say part of the macro.
+--    Adding a little wait seems to fix the problem and it's a more consistent UX.
+local function WaitThenUpdateMacro()
+	local timeOut = 0.5
+	C_Timer.After(timeOut, function()
+		local ticker
+		ticker = C_Timer.NewTicker(timeOut, function()
+			-- Now call udpate macro
+			updateMacro()
+  			ticker:Cancel()
+	    end)
+	end)
+end
+
 -- Set random Hearthstone
 local function setRandom()
 	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) and #rhList > 0 then
@@ -179,14 +194,17 @@ local function setRandom()
 			end
 			lastRnd = rnd
 		end
-		rhBtn:SetAttribute("toy", rhDB.L.tList[rnd]["name"])
+
+		-- Update macro name/icon vars for tooltip
+		macroName = rhDB.L.tList[rnd]["name"]
 		if rhDB.iconOverride.name == L["RANDOM"] then
 			macroIcon = rhDB.L.tList[rnd]["icon"]
-			local macroIndex = GetMacroIndexByName(L["MACRO_NAME"])
-			if macroIndex ~= 0 then
-				EditMacro(macroIndex, nil, macroIcon)
-			end
 		end
+
+		rhBtn:SetAttribute("toy", macroName)
+
+		-- Actually update macro
+		WaitThenUpdateMacro()
 	end
 end
 
@@ -256,16 +274,12 @@ rhBtn:SetScript("PreClick", function(self, button, isDown)
 		if (button == "2" or button == "RightButton") and rhDB.settings.dalOpt then
 			rhBtn:SetAttribute("toy", rhDB.L.dalaran)
 		elseif (button == "3" or button == "MiddleButton") and rhDB.settings.garOpt then
-			rhBtn:SetAttribute("toy", rhDB.L.garrison)
-		else
-			setRandom()
+			rhBtn:SetAttribute("toy", rhDB.L.garrison)		
 		end
 	end
 end)
 rhBtn:SetScript("PostClick", function(self, button)
-	if button == "2" or button == "RightButton" or button == "3" or button == "MiddleButton" then
-		setRandom()
-	end
+	setRandom()
 end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
