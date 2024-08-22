@@ -43,7 +43,7 @@ local rhToys = {
 -- DO NOT EDIT BELOW HERE
 -- Unless you want to, I'm not your supervisor.
 
-local rhList, count, macroIcon, macroName
+local rhList, count, macroIcon, macroToyName, macroTimer
 local rhCheckButtons, wait, lastRnd = {}, false, 0
 local addon, RH = ...
 local L = RH.Localisation
@@ -74,15 +74,21 @@ local function updateMacro()
 		local macroText
 		if #rhList == 0 then
 			print("|cffFF0000"..L["NO_VALID_CHOSEN"].."-|r"..L["SET_TO_HEARTH"])
-			macroText = "#showtooltip " .. macroName .. "\n/use " .. macroName
+			macroText = "#showtooltip " .. macroToyName .. "\n/use " .. macroToyName
 		else
-			macroText = "#showtooltip " .. macroName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB"
+			macroText = "#showtooltip " .. macroToyName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB"
 		end
-		local macroIndex = GetMacroIndexByName(L["MACRO_NAME"])
-		if macroIndex == 0 then
-			CreateMacro(L["MACRO_NAME"], macroIcon, macroText, nil)
-		else
-			EditMacro(macroIndex, nil, macroIcon, macroText)
+		if macroTimer ~= true then
+			macroTimer = true
+			C_Timer.After(0.1, function()
+				local macroIndex = GetMacroIndexByName(L["MACRO_NAME"])
+				if macroIndex == 0 then
+					CreateMacro(L["MACRO_NAME"], macroIcon, macroText, nil)
+				else
+					EditMacro(macroIndex, nil, macroIcon, macroText)
+				end
+				macroTimer = false
+			end)
 		end
 	end
 end
@@ -159,7 +165,7 @@ local function listGenerate()
 	end
 	local item = Item:CreateFromItemID(rnd)
 	item:ContinueOnItemLoad(function()
-		macroName = item:GetItemName()
+		macroToyName = item:GetItemName()
 		if rhDB.iconOverride.name ~= L["RANDOM"] then
 			macroIcon = rhDB.iconOverride.icon
 		else

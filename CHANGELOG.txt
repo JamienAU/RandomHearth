@@ -1,2 +1,3 @@
-Fix Draenic Hologem logic, properly this time.
-Fix timeout for randomising toys when only one is enabled with 'Random' icon selected
+Add timer for macro update and re-add macro tooltip updates
+Add additional option to customise macro name
+Set macro to randomise on PostClick
