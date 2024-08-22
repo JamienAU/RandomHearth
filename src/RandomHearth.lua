@@ -93,6 +93,25 @@ local function updateMacro()
 	end
 end
 
+-- Set random Hearthstone
+local function setRandom()
+	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) and #rhList > 0 then
+		local rnd = rhList[math.random(1, count)]
+		if count > 1 then
+			while rnd == lastRnd do
+				rnd = rhList[math.random(1, count)]
+			end
+			lastRnd = rnd
+		end
+		macroToyName =  rhDB.L.tList[rnd]["name"]
+		rhBtn:SetAttribute("toy", macroToyName)
+		if rhDB.iconOverride.name == L["RANDOM"] then
+			macroIcon = rhDB.L.tList[rnd]["icon"]
+		end
+		updateMacro()
+	end
+end
+
 -- Generate a list of valid toys
 local function listGenerate()
 	rhList = {}
@@ -156,7 +175,8 @@ local function listGenerate()
 		end
 	end
 
-	-- Set variables for macro text and icon
+	setRandom()
+--[[ 	-- Set variables for macro text and icon
 	local rnd
 	if #rhList > 0 then
 		rnd = rhList[math.random(1, count)]
@@ -172,28 +192,7 @@ local function listGenerate()
 			macroIcon = item:GetItemIcon()
 		end
 		updateMacro()
-	end)
-end
-
--- Set random Hearthstone
-local function setRandom()
-	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) and #rhList > 0 then
-		local rnd = rhList[math.random(1, count)]
-		if count > 1 then
-			while rnd == lastRnd do
-				rnd = rhList[math.random(1, count)]
-			end
-			lastRnd = rnd
-		end
-		rhBtn:SetAttribute("toy", rhDB.L.tList[rnd]["name"])
-		if rhDB.iconOverride.name == L["RANDOM"] then
-			macroIcon = rhDB.L.tList[rnd]["icon"]
-			local macroIndex = GetMacroIndexByName(L["MACRO_NAME"])
-			if macroIndex ~= 0 then
-				EditMacro(macroIndex, nil, macroIcon)
-			end
-		end
-	end
+	end)]]
 end
 
 -- Update Hearthstone selections when options panel closes
@@ -263,13 +262,15 @@ rhBtn:SetScript("PreClick", function(self, button, isDown)
 			rhBtn:SetAttribute("toy", rhDB.L.dalaran)
 		elseif (button == "3" or button == "MiddleButton") and rhDB.settings.garOpt then
 			rhBtn:SetAttribute("toy", rhDB.L.garrison)
-		else
-			setRandom()
 		end
 	end
 end)
 rhBtn:SetScript("PostClick", function(self, button)
-	if button == "2" or button == "RightButton" or button == "3" or button == "MiddleButton" then
+	if (button == "2" or button == "RightButton") and rhDB.settings.dalOpt then
+		rhBtn:SetAttribute("toy", macroToyName)
+	elseif (button == "3" or button == "MiddleButton") and rhDB.settings.garOpt then
+		rhBtn:SetAttribute("toy", macroToyName)
+	else
 		setRandom()
 	end
 end)
