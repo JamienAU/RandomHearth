@@ -82,9 +82,10 @@ local function updateMacro()
 		if macroTimer ~= true then
 			macroTimer = true
 			C_Timer.After(0.1, function()
-				local macroIndex = GetMacroIndexByName(L["MACRO_NAME"])
+				local macroIndex = GetMacroIndexByName(rhDB.settings.macroName)
 				if macroIndex == 0 then
-					CreateMacro(L["MACRO_NAME"], macroIcon, macroText, nil)
+					print("Random Hearthstone - Macro not found, creating macro named '",rhDB.settings.macroName,"'")
+					CreateMacro(rhDB.settings.macroName, macroIcon, macroText, nil)
 				else
 					EditMacro(macroIndex, nil, macroIcon, macroText)
 				end
@@ -94,6 +95,25 @@ local function updateMacro()
 	end
 end
 
+local function updateMacroName()
+	local name = rhMacroName:GetText()
+	local macroIndex = GetMacroIndexByName(rhDB.settings.macroName)
+	if macroIndex == 0 then
+		print("Macro named '",rhDB.settings.macroName,"' not found. Macro will be recreated!")
+	else
+		EditMacro(macroIndex, name)
+		rhDB.settings.macroName = name
+		print("Random Hearthstone - Updating macro name to '",name,"'")
+	end
+end
+
+local function checkMacroName()
+	local name = rhMacroName:GetText()
+	if name == rhDB.settings.macroName or string.len(name) == 0 then return end
+	if GetMacroIndexByName(name) == 0 then
+		updateMacroName()
+	end
+end
 -- Set random Hearthstone
 local function setRandom()
 	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) and #rhList > 0 then
@@ -387,26 +407,21 @@ rhMacroName.Text:SetText("Macro name")
 rhMacroName.Text:SetPoint("BOTTOMLEFT", rhMacroName, "TOPLEFT", 0, 5)
 rhMacroName.Exist = rhMacroName:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rhMacroName.Exist:SetTextColor(1,0,0,1)
-rhMacroName.Exist:SetText("Macro name in use!\nPlease pick a unique name.")
 rhMacroName.Exist:SetJustifyH("LEFT")
 rhMacroName.Exist:SetPoint("TOPLEFT", rhMacroName,"BOTTOMLEFT", 0, -5)
+rhMacroName.Exist:SetText("Macro name in use!\nPlease pick a unique name.")
 rhMacroName.Exist:Hide()
 rhMacroName:SetScript("OnShow", function()
 	rhMacroName.Exist:Hide()
-	if rhDB.settings.macroName == "default" then
-		rhMacroName:SetText(L["MACRO_NAME"])
-	else
-		rhMacroName:SetText(rhDB.settings.macroName)
-	end
+	rhMacroName:SetText(rhDB.settings.macroName)
 end)
 rhMacroName:SetScript("OnChar", function()
-	-- Checking if the macro exists
-	-- adding in a timer so it doesn't spam check on every key press.
+	-- Checking if the macro exists. Adding in a timer so it doesn't spam check on every key press.
 	if waitTimer ~= true then
 		waitTimer = true
 		C_Timer.After(1, function()
 			local name = rhMacroName:GetText()
-			if name ~= L["MACRO_NAME"] and GetMacroIndexByName(name) ~= 0 then
+			if name ~= rhDB.settings.macroName and GetMacroIndexByName(name) ~= 0 then
 				rhMacroName.Exist:Show()
 			else
 				rhMacroName.Exist:Hide()
@@ -415,28 +430,8 @@ rhMacroName:SetScript("OnChar", function()
 		end)
 	end
 end)
-rhMacroName:SetScript("OnEditFocusLost", function()
-	-- Set the macroName to rhDB.
-	--[[
-	
-	TODO
-	--------
-	- If the name has changed, get the existing macro and edit the name. Don't delete, that's annoying
-	- Trigger this from closing the options panel?
-	  Can do on focus lost, only needs to happen once
-	- Update the updateMacro function to use the new macro name
-	- I dunno, I'm tired.
-
-	]]
-	local name = rhMacroName:GetText()
-	if name == L["MACRO_NAME"] then
-		rhDB.settings.macroName = "default"
-	elseif GetMacroIndexByName(name) == 0 then
-		rhDB.settings.macroName = name
-	end
-	-- DEBUG Remove me.
-	print(rhDB.settings.macroName)
-end)
+rhMacroName:SetScript("OnEditFocusLost", function() checkMacroName() end)
+rhMacroName:SetScript("OnEnterPressed", function() checkMacroName() end)
 
 -- Listener for addon loaded shenanigans
 rhListener:RegisterEvent("ADDON_LOADED")
@@ -454,7 +449,7 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 		rhInitDB(rhDB.settings, "covOverride", false)
 		rhInitDB(rhDB.settings, "dalOpt", true)
 		rhInitDB(rhDB.settings, "garOpt", true)
-		rhInitDB(rhDB.settings, "macroName", "default")
+		rhInitDB(rhDB.settings, "macroName", L["MACRO_NAME"])
 		rhInitDB(rhDB, "iconOverride", { name = "Random", icon = 134400 })
 		rhInitDB(rhDB, "L", {})
 		rhInitDB(rhDB.L, "locale", GetLocale())
