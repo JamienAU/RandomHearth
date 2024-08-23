@@ -51,6 +51,7 @@ local L = RH.Localisation
 -- Frames
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 local rhOptionsPanel = CreateFrame("Frame")
+local rhCategory = Settings.RegisterCanvasLayoutCategory(rhOptionsPanel, "Random Hearthstone")
 local rhTitle = CreateFrame("Frame", nil, rhOptionsPanel)
 local rhDesc = CreateFrame("Frame", nil, rhOptionsPanel)
 local rhOptionsScroll = CreateFrame("ScrollFrame", nil, rhOptionsPanel, "UIPanelScrollFrameTemplate")
@@ -74,7 +75,7 @@ local function updateMacro()
 	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
 		local macroText
 		if #rhList == 0 then
-			print("|cffFF0000"..L["NO_VALID_CHOSEN"].."-|r"..L["SET_TO_HEARTH"])
+			print("|cffFF0000" .. L["NO_VALID_CHOSEN"] .. "-|r" .. L["SET_TO_HEARTH"])
 			macroText = "#showtooltip " .. macroToyName .. "\n/use " .. macroToyName
 		else
 			macroText = "#showtooltip " .. macroToyName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB"
@@ -84,7 +85,7 @@ local function updateMacro()
 			C_Timer.After(0.1, function()
 				local macroIndex = GetMacroIndexByName(rhDB.settings.macroName)
 				if macroIndex == 0 then
-					print("Random Hearthstone - Macro not found, creating macro named '",rhDB.settings.macroName,"'")
+					print("Random Hearthstone - Macro not found, creating macro named '", rhDB.settings.macroName, "'")
 					CreateMacro(rhDB.settings.macroName, macroIcon, macroText, nil)
 				else
 					EditMacro(macroIndex, nil, macroIcon, macroText)
@@ -99,11 +100,11 @@ local function updateMacroName()
 	local name = rhMacroName:GetText()
 	local macroIndex = GetMacroIndexByName(rhDB.settings.macroName)
 	if macroIndex == 0 then
-		print("Macro named '",rhDB.settings.macroName,"' not found. Macro will be recreated!")
+		print("Macro named '", rhDB.settings.macroName, "' not found. Macro will be recreated!")
 	else
 		EditMacro(macroIndex, name)
 		rhDB.settings.macroName = name
-		print("Random Hearthstone - Updating macro name to '",name,"'")
+		print("Random Hearthstone - Updating macro name to '", name, "'")
 	end
 end
 
@@ -111,6 +112,7 @@ local function checkMacroName()
 	local name = rhMacroName:GetText()
 	if name == rhDB.settings.macroName or string.len(name) == 0 then return end
 	if GetMacroIndexByName(name) == 0 then
+		rhMacroName.Icon:Hide()
 		updateMacroName()
 	end
 end
@@ -124,7 +126,7 @@ local function setRandom()
 			end
 			lastRnd = rnd
 		end
-		macroToyName =  rhDB.L.tList[rnd]["name"]
+		macroToyName = rhDB.L.tList[rnd]["name"]
 		rhBtn:SetAttribute("toy", macroToyName)
 		if rhDB.iconOverride.name == L["RANDOM"] then
 			macroIcon = rhDB.L.tList[rnd]["icon"]
@@ -151,7 +153,7 @@ local function listGenerate()
 		elseif C_Covenants.GetActiveCovenantID() ~= v[2] then
 			if rhDB.L.tList[v[3]] ~= nil then
 				rhCheckButtons[v[3]].Extratext = rhCheckButtons[v[3]]:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-				rhCheckButtons[v[3]].Extratext:SetText("|cff777777("..L["RENOWN_LOCKED"]..")|r")
+				rhCheckButtons[v[3]].Extratext:SetText("|cff777777(" .. L["RENOWN_LOCKED"] .. ")|r")
 				rhCheckButtons[v[3]].Extratext:SetPoint("LEFT", rhCheckButtons[v[3]].Text, "RIGHT", 10, 0)
 			end
 		end
@@ -285,7 +287,6 @@ rhOptionsPanel.name = "Random Hearthstone"
 rhOptionsPanel.OnCommit = function() rhOptionsOkay(); end
 rhOptionsPanel.OnDefault = function() end
 rhOptionsPanel.OnRefresh = function() end
-local rhCategory = Settings.RegisterCanvasLayoutCategory(rhOptionsPanel, "Random Hearthstone")
 Settings.RegisterAddOnCategory(rhCategory)
 
 -- Title
@@ -299,8 +300,8 @@ rhTitle.Text:SetText(L["ADDON_NAME"])
 -- Thanks
 rhOptionsPanel.Thanks = rhOptionsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 rhOptionsPanel.Thanks:SetPoint("TOPRIGHT", rhOptionsPanel, "TOPRIGHT", -5, -5)
-rhOptionsPanel.Thanks:SetTextColor(1,1,1,0.5)
-rhOptionsPanel.Thanks:SetText(L["THANKS"].." :)\nNiian - Khaz'Goroth")
+rhOptionsPanel.Thanks:SetTextColor(1, 1, 1, 0.5)
+rhOptionsPanel.Thanks:SetText(L["THANKS"] .. " :)\nNiian - Khaz'Goroth")
 rhOptionsPanel.Thanks:SetJustifyH("RIGHT")
 
 -- Description
@@ -335,13 +336,13 @@ for i = 1, #rhToys do
 	rhCheckButtons[rhToys[i]] = CreateFrame("CheckButton", nil, rhScrollChild, "UICheckButtonTemplate")
 	rhCheckButtons[rhToys[i]]:SetPoint("TOPLEFT", 15, chkOffset)
 	rhCheckButtons[rhToys[i]]:SetSize(25, 25)
+	rhCheckButtons[rhToys[i]].Text = rhCheckButtons[rhToys[i]]:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	local item = Item:CreateFromItemID(rhToys[i])
 	item:ContinueOnItemLoad(function()
 		rhCheckButtons[rhToys[i]].Text:SetText(item:GetItemName())
 	end)
 	rhCheckButtons[rhToys[i]].Text:SetTextColor(1, 1, 1, 1)
 	rhCheckButtons[rhToys[i]].Text:SetPoint("LEFT", 28, 0)
-	rhCheckButtons[rhToys[i]].Text:SetFontObject("GameFontNormal")
 end
 
 -- Select All button
@@ -371,63 +372,75 @@ rhDropdown.Texture:SetSize(24, 24)
 rhDropdown.Texture:SetPoint("LEFT", rhDropdown, "RIGHT", -10, 2)
 rhDropdown.Extratext = rhDropdown:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rhDropdown.Extratext:SetText(L["MACRO_ICON"])
---rhDropdown.Extratext:SetPoint("RIGHT", rhDropdown, "LEFT", 10, 2)
 rhDropdown.Extratext:SetPoint("BOTTOMLEFT", rhDropdown, "TOPLEFT", 25, 5)
 
 -- Covenant override checkbox
 rhOverride:SetPoint("TOPLEFT", rhOverride:GetParent(), "BOTTOMLEFT", 15, -50)
 rhOverride:SetSize(25, 25)
 rhOverride.Text:SetJustifyH("LEFT")
-rhOverride.Text:SetText(" "..L["COV_ONLY"])
+rhOverride.Text:SetText(" " .. L["COV_ONLY"])
 rhOverride.Text:SetTextColor(1, 1, 1, 1)
 
 -- Dalaran hearth checkbox
 rhDalHearth:SetPoint("TOPLEFT", rhOverride, "BOTTOMLEFT", 0, 0)
 rhDalHearth:SetSize(25, 25)
 rhDalHearth.Text:SetJustifyH("LEFT")
-rhDalHearth.Text:SetText(" "..L["DAL_R_CLICK"])
+rhDalHearth.Text:SetText(" " .. L["DAL_R_CLICK"])
 rhDalHearth.Text:SetTextColor(1, 1, 1, 1)
 
 -- Garrison hearth checkbox
 rhGarHearth:SetPoint("TOPLEFT", rhDalHearth, "BOTTOMLEFT", 0, 0)
 rhGarHearth:SetSize(25, 25)
 rhDalHearth.Text:SetJustifyH("LEFT")
-rhGarHearth.Text:SetText(" "..L["GAR_M_CLICK"])
+rhGarHearth.Text:SetText(" " .. L["GAR_M_CLICK"])
 rhGarHearth.Text:SetTextColor(1, 1, 1, 1)
 
 -- Custom macro name box
-rhMacroName:SetPoint("TOP", rhDropdown, "BOTTOM", 0, -20)
+rhMacroName:SetPoint("TOPLEFT", rhDropdown, "BOTTOMLEFT", 25, -20)
 rhMacroName:SetAutoFocus(false)
-rhMacroName:SetSize(200,20)
+rhMacroName:SetSize(208, 20)
 rhMacroName:SetFontObject("GameFontNormal")
-rhMacroName:SetTextColor(1,1,1,1)
+rhMacroName:SetTextColor(1, 1, 1, 1)
 rhMacroName:SetMaxLetters(30)
-rhMacroName.Text = rhMacroName:CreateFontString(nil, "OVERLAY","GameFontNormal")
+rhMacroName.Text = rhMacroName:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rhMacroName.Text:SetText("Macro name")
 rhMacroName.Text:SetPoint("BOTTOMLEFT", rhMacroName, "TOPLEFT", 0, 5)
 rhMacroName.Exist = rhMacroName:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-rhMacroName.Exist:SetTextColor(1,0,0,1)
+rhMacroName.Exist:SetTextColor(1, 0, 0, 1)
 rhMacroName.Exist:SetJustifyH("LEFT")
-rhMacroName.Exist:SetPoint("TOPLEFT", rhMacroName,"BOTTOMLEFT", 0, -5)
+rhMacroName.Exist:SetPoint("TOPLEFT", rhMacroName, "BOTTOMLEFT", 0, -5)
 rhMacroName.Exist:SetText("Macro name in use!\nPlease pick a unique name.")
 rhMacroName.Exist:Hide()
+rhMacroName.Icon = rhMacroName:CreateTexture(nil, "OVERLAY")
+rhMacroName.Icon:SetPoint("LEFT", rhMacroName, "RIGHT", 5, 0)
+rhMacroName.Icon:SetTexture("Interface/COMMON/CommonIcons.PNG")
+rhMacroName.Icon:SetSize(24, 24)
 rhMacroName:SetScript("OnShow", function()
 	rhMacroName.Exist:Hide()
+	rhMacroName.Icon:Hide()
 	rhMacroName:SetText(rhDB.settings.macroName)
 end)
-rhMacroName:SetScript("OnChar", function()
-	-- Checking if the macro exists. Adding in a timer so it doesn't spam check on every key press.
-	if waitTimer ~= true then
-		waitTimer = true
-		C_Timer.After(1, function()
-			local name = rhMacroName:GetText()
-			if name ~= rhDB.settings.macroName and GetMacroIndexByName(name) ~= 0 then
-				rhMacroName.Exist:Show()
-			else
-				rhMacroName.Exist:Hide()
-			end
-			waitTimer = false
-		end)
+rhMacroName:SetScript("OnTextChanged", function(self,userInput)
+	if userInput == true then
+		-- Checking if the macro exists. Adding in a timer so it doesn't spam check on every key press.
+		if waitTimer ~= true then
+			waitTimer = true
+			C_Timer.After(0.5, function()
+				local name = rhMacroName:GetText()
+				if name ~= rhDB.settings.macroName and GetMacroIndexByName(name) ~= 0 then
+					rhMacroName.Exist:Show()
+					rhMacroName.Icon:SetTexCoord(0.25, 0.38, 0, 0.26)
+					rhMacroName.Icon:Show()
+				elseif string.len(name) == 0 then
+					rhMacroName.Icon:Hide()
+				else
+					rhMacroName.Exist:Hide()
+					rhMacroName.Icon:SetTexCoord(0, 0.13, 0.51, 0.75)
+					rhMacroName.Icon:Show()
+				end
+				waitTimer = false
+			end)
+		end
 	end
 end)
 rhMacroName:SetScript("OnEditFocusLost", function() checkMacroName() end)
@@ -552,7 +565,8 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 			info.arg1, info.text, info.checked, info.icon = "Random", L["Random"], rhDB.iconOverride.name == L["Random"],
 				134400
 			UIDropDownMenu_AddButton(info)
-			info.arg1, info.text, info.checked, info.icon = "Hearthstone", L["Hearthstone"],rhDB.iconOverride.name == L["Hearthstone"], 134414
+			info.arg1, info.text, info.checked, info.icon = "Hearthstone", L["Hearthstone"],
+			rhDB.iconOverride.name == L["Hearthstone"], 134414
 			UIDropDownMenu_AddButton(info)
 			for i = 1, #rhToys do
 				if rhDB.L.tList[rhToys[i]] ~= nil then
