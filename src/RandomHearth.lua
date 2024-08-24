@@ -130,6 +130,8 @@ local function setRandom()
 		rhBtn:SetAttribute("toy", macroToyName)
 		if rhDB.iconOverride.name == L["RANDOM"] then
 			macroIcon = rhDB.L.tList[rnd]["icon"]
+		else
+			macroIcon = rhDB.iconOverride.icon
 		end
 		updateMacro()
 	end
