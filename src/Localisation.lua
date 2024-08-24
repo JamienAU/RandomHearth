@@ -21,7 +21,7 @@ L["DAL_R_CLICK"] = "Cast Dalaran Hearth on macro right click"
 L["GAR_M_CLICK"] = "Cast Garrison Hearth on macro middle click"
 L["SETUP_1"] = "Setting up Random Hearthstone database."
 L["SETUP_2"] = "You can now cast Dalaran hearth with right click, and Garrison hearth with middle mouse button."
-L["SETUP_3"] = "These settings can be changed in the options, type"
+L["SETUP_3"] = "These settings can be changed in the options, type /rh"
 L["RANDOM"] = "Random"
 L["HEARTHSTONE"] = "Hearthstone"
 
@@ -43,7 +43,7 @@ if locale == "zhCN" then
     L["GAR_M_CLICK"] = "鼠标中键点击宏使用要塞炉石"
     L["SETUP_1"] = "设置随机炉石数据库"
     L["SETUP_2"] = "现在您可以用鼠标右键点击达拉然炉石，用鼠标中键点击要塞炉石。"
-    L["SETUP_3"] = "这些设置可以在选项中更改，输入"
+    L["SETUP_3"] = "这些设置可以在选项中更改，输入 /rh"
     L["RANDOM"] = "随机"
     L["HEARTHSTONE"] = "炉石"
 end
@@ -66,7 +66,7 @@ if locale == "zhTW" then
     L["GAR_M_CLICK"] = "滑鼠中鍵點擊使用要塞爐石"
     L["SETUP_1"] = "設定隨機爐石數據庫"
     L["SETUP_2"] = "現在您可以滑鼠右鍵使用達拉然爐石，滑鼠中鍵使用要塞爐石。"
-    L["SETUP_3"] = "這些設定可以在選項中更改，請輸入"
+    L["SETUP_3"] = "這些設定可以在選項中更改，請輸入 /rh"
     L["RANDOM"] = "隨機"
     L["HEARTHSTONE"] = "爐石"
 end
