@@ -44,7 +44,7 @@ local rhToys = {
 -- Unless you want to, I'm not your supervisor.
 
 local rhList, count, macroIcon, macroToyName, macroTimer, waitTimer
-local rhCheckButtons, wait, lastRnd = {}, false, 0
+local rhCheckButtons, wait, lastRnd, loginMsg = {}, false, 0, "r21"
 local addon, RH = ...
 local L = RH.Localisation
 ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -465,6 +465,7 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 		rhInitDB(rhDB.settings, "dalOpt", true)
 		rhInitDB(rhDB.settings, "garOpt", true)
 		rhInitDB(rhDB.settings, "macroName", L["MACRO_NAME"])
+		rhInitDB(rhDB.settings, "loginMsg", "")
 		rhInitDB(rhDB, "iconOverride", { name = "Random", icon = 134400 })
 		rhInitDB(rhDB, "L", {})
 		rhInitDB(rhDB.L, "locale", GetLocale())
@@ -583,6 +584,12 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 
 		self:UnregisterEvent("ADDON_LOADED")
 	end
+
+	if rhDB.settings.loginMsg ~= loginMsg then
+		rhDB.settings.loginMsg = loginMsg
+		print(L["LOGIN_MESSAGE"])
+	end
+
 	if event == "PLAYER_ENTERING_WORLD" then
 		if not wait then
 			listGenerate()

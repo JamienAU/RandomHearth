@@ -24,10 +24,11 @@ L["SETUP_2"] = "You can now cast Dalaran hearth with right click, and Garrison h
 L["SETUP_3"] = "These settings can be changed in the options, type /rh"
 L["RANDOM"] = "Random"
 L["HEARTHSTONE"] = "Hearthstone"
-L["MACRO_NOT_FOUND"] = "Random Hearthstone - Macro not found, creating macro named '"
-L["UPDATE_MACRO_NAME"] = "Random Hearthstone - Updating macro name to '"
+L["MACRO_NOT_FOUND"] = "|cff42E400Random Hearthstone|r - Macro not found, creating macro named '"
+L["UPDATE_MACRO_NAME"] = "|cff42E400Random Hearthstone|r - Updating macro name to '"
 L["UNIQUE_NAME_ERROR"] = "Macro name in use!\nPlease pick a unique name."
 L["OPT_MACRO_NAME"] = "Macro name"
+L["LOGIN_MESSAGE"] = "|cff42E400Random Hearthstone|r - Macro name can now be customised. Type /rh to open options."
 
 -- zhCN
 if locale == "zhCN" then
@@ -50,8 +51,8 @@ if locale == "zhCN" then
     L["SETUP_3"] = "这些设置可以在选项中更改，输入 /rh"
     L["RANDOM"] = "随机"
     L["HEARTHSTONE"] = "炉石"
-    L["MACRO_NOT_FOUND"] = "随机炉石 - 未找到宏，正在创建宏名为 '"
-    L["UPDATE_MACRO_NAME"] = "随机炉石 - 更新宏名为 '"
+    L["MACRO_NOT_FOUND"] = "|cff42E400随机炉石|r - 未找到宏，正在创建宏名为 '"
+    L["UPDATE_MACRO_NAME"] = "|cff42E400随机炉石|r - 更新宏名为 '"
     L["UNIQUE_NAME_ERROR"] = "使用中的宏名称！\n请选择一个唯一的名字。"
     L["OPT_MACRO_NAME"] = "宏名字"
 end
@@ -77,8 +78,8 @@ if locale == "zhTW" then
     L["SETUP_3"] = "這些設定可以在選項中更改，請輸入 /rh"
     L["RANDOM"] = "隨機"
     L["HEARTHSTONE"] = "爐石"
-    L["MACRO_NOT_FOUND"] = "隨機爐石 - 未找到巨集，正在建立巨集名為 '"
-    L["UPDATE_MACRO_NAME"] = "隨機爐石 - 更新巨集名為 '"
+    L["MACRO_NOT_FOUND"] = "|cff42E400隨機爐石|r - 未找到巨集，正在建立巨集名為 '"
+    L["UPDATE_MACRO_NAME"] = "|cff42E400隨機爐石|r - 更新巨集名為 '"
     L["UNIQUE_NAME_ERROR"] = "使用中的巨集名稱！\n請選擇一個唯一的名字。"
     L["OPT_MACRO_NAME"] = "巨集名字"
 end
