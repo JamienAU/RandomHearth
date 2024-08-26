@@ -75,7 +75,10 @@ local function updateMacro()
 	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
 		local macroText
 		if #rhList == 0 then
-			print("|cffFF0000" .. L["NO_VALID_CHOSEN"] .. "-|r" .. L["SET_TO_HEARTH"])
+			if rhDB.settings.warnMsg ~= true then
+				rhDB.settings.warnMsg = true
+				print(L["NO_VALID_CHOSEN"])
+			end
 			macroText = "#showtooltip " .. macroToyName .. "\n/use " .. macroToyName
 		else
 			macroText = "#showtooltip " .. macroToyName .. "\n/stopcasting\n/click [btn:2]rhB 2;[btn:3]rhB 3;rhB"
@@ -87,6 +90,7 @@ local function updateMacro()
 				if macroIndex == 0 then
 					print(L["MACRO_NOT_FOUND"], rhDB.settings.macroName, "'")
 					CreateMacro(rhDB.settings.macroName, macroIcon, macroText, nil)
+					rhMacroName:SetText(rhDB.settings.macroName)
 				else
 					EditMacro(macroIndex, nil, macroIcon, macroText)
 				end
@@ -101,7 +105,7 @@ local function updateMacroName()
 		local name = rhMacroName:GetText()
 		local macroIndex = GetMacroIndexByName(rhDB.settings.macroName)
 		if macroIndex == 0 then
-			print(L["MACRO_NOT_FOUND"], rhDB.settings.macroName, "'")
+			updateMacro()
 		else
 			EditMacro(macroIndex, name)
 			rhDB.settings.macroName = name
@@ -122,20 +126,25 @@ local function checkMacroName()
 end
 -- Set random Hearthstone
 local function setRandom()
-	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) and #rhList > 0 then
-		local rnd = rhList[math.random(1, count)]
-		if count > 1 then
-			while rnd == lastRnd do
-				rnd = rhList[math.random(1, count)]
+	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
+		if #rhList > 0 then
+			local rnd = rhList[math.random(1, count)]
+			if count > 1 then
+				while rnd == lastRnd do
+					rnd = rhList[math.random(1, count)]
+				end
+				lastRnd = rnd
 			end
-			lastRnd = rnd
-		end
-		macroToyName = rhDB.L.tList[rnd]["name"]
-		rhBtn:SetAttribute("toy", macroToyName)
-		if rhDB.iconOverride.name == L["RANDOM"] then
-			macroIcon = rhDB.L.tList[rnd]["icon"]
+			macroToyName = rhDB.L.tList[rnd]["name"]
+			rhBtn:SetAttribute("toy", macroToyName)
+			if rhDB.iconOverride.name == L["RANDOM"] then
+				macroIcon = rhDB.L.tList[rnd]["icon"]
+			else
+				macroIcon = rhDB.iconOverride.icon
+			end
 		else
-			macroIcon = rhDB.iconOverride.icon
+			macroToyName = "item:6948"
+			macroIcon = 134414
 		end
 		updateMacro()
 	end
@@ -214,6 +223,7 @@ local function rhOptionsOkay()
 	rhDB.settings.covOverride = rhOverride:GetChecked()
 	rhDB.settings.dalOpt = rhDalHearth:GetChecked()
 	rhDB.settings.garOpt = rhGarHearth:GetChecked()
+	rhDB.settings.warnMsg = false
 	listGenerate()
 end
 
@@ -426,7 +436,7 @@ rhMacroName:SetScript("OnShow", function()
 	rhMacroName.Icon:Hide()
 	rhMacroName:SetText(rhDB.settings.macroName)
 end)
-rhMacroName:SetScript("OnTextChanged", function(self,userInput)
+rhMacroName:SetScript("OnTextChanged", function(self, userInput)
 	if userInput == true then
 		-- Checking if the macro exists. Adding in a timer so it doesn't spam check on every key press.
 		if waitTimer ~= true then
@@ -470,6 +480,7 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 		rhInitDB(rhDB.settings, "garOpt", true)
 		rhInitDB(rhDB.settings, "macroName", L["MACRO_NAME"])
 		rhInitDB(rhDB.settings, "loginMsg", "")
+		rhInitDB(rhDB.settings, "warnMsg", false)
 		rhInitDB(rhDB, "iconOverride", { name = "Random", icon = 134400 })
 		rhInitDB(rhDB, "L", {})
 		rhInitDB(rhDB.L, "locale", GetLocale())
@@ -573,7 +584,7 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 				134400
 			UIDropDownMenu_AddButton(info)
 			info.arg1, info.text, info.checked, info.icon = "Hearthstone", L["Hearthstone"],
-			rhDB.iconOverride.name == L["Hearthstone"], 134414
+				rhDB.iconOverride.name == L["Hearthstone"], 134414
 			UIDropDownMenu_AddButton(info)
 			for i = 1, #rhToys do
 				if rhDB.L.tList[rhToys[i]] ~= nil then

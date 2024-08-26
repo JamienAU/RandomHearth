@@ -7,8 +7,7 @@ local locale = GetLocale()
 -- enUS / enGB / Default
 L = L or {}
 L["ADDON_NAME"] = "Random Hearthstone"
-L["NO_VALID_CHOSEN"] = "No valid Hearthstone toy chosen"
-L["SET_TO_HEARTH"] = "Setting macro to use Hearthstone"
+L["NO_VALID_CHOSEN"] = "|cff42E400Random Hearthstone|r - No valid toy chosen. Setting macro to use Hearthstone"
 L["MACRO_NAME"] = "Random Hearth"
 L["RENOWN_LOCKED"] = "Renown locked"
 L["THANKS"] = "Thanks for using my addon"
@@ -34,8 +33,7 @@ L["LOGIN_MESSAGE"] = "|cff42E400Random Hearthstone|r - Macro name can now be cus
 if locale == "zhCN" then
     L = L or {}
     L["ADDON_NAME"] = "随机炉石"
-    L["NO_VALID_CHOSEN"] = "没有选择有效的炉石玩具"
-    L["SET_TO_HEARTH"] = "设置宏来使用炉石玩具"
+    L["NO_VALID_CHOSEN"] = "|cff42E400随机炉石|r - 没有选择有效的炉石玩具。 设置宏来使用炉石玩具"
     L["MACRO_NAME"] = "随机炉石"
     L["RENOWN_LOCKED"] = "盟约锁定"
     L["THANKS"] = "谢谢你使用我的插件"
@@ -61,8 +59,7 @@ end
 if locale == "zhTW" then
     L = L or {}
     L["ADDON_NAME"] = "隨機爐石"
-    L["NO_VALID_CHOSEN"] = "沒有選擇有效的爐石玩具"
-    L["SET_TO_HEARTH"] = "設定巨集來使用爐石玩具"
+    L["NO_VALID_CHOSEN"] = "|cff42E400隨機爐石|r - 沒有選擇有效的爐石玩具。 設定巨集來使用爐石玩具"
     L["MACRO_NAME"] = "隨機爐石"
     L["RENOWN_LOCKED"] = "誓盟鎖定"
     L["THANKS"] = "感謝您使用我的插件"
