@@ -97,23 +97,27 @@ local function updateMacro()
 end
 
 local function updateMacroName()
-	local name = rhMacroName:GetText()
-	local macroIndex = GetMacroIndexByName(rhDB.settings.macroName)
-	if macroIndex == 0 then
-		print(L["MACRO_NOT_FOUND"], rhDB.settings.macroName, "'")
-	else
-		EditMacro(macroIndex, name)
-		rhDB.settings.macroName = name
-		print(L["UPDATE_MACRO_NAME"], name, "'")
+	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
+		local name = rhMacroName:GetText()
+		local macroIndex = GetMacroIndexByName(rhDB.settings.macroName)
+		if macroIndex == 0 then
+			print(L["MACRO_NOT_FOUND"], rhDB.settings.macroName, "'")
+		else
+			EditMacro(macroIndex, name)
+			rhDB.settings.macroName = name
+			print(L["UPDATE_MACRO_NAME"], name, "'")
+		end
 	end
 end
 
 local function checkMacroName()
-	local name = rhMacroName:GetText()
-	if name == rhDB.settings.macroName or string.len(name) == 0 then return end
-	if GetMacroIndexByName(name) == 0 then
-		rhMacroName.Icon:Hide()
-		updateMacroName()
+	if not (InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")) then
+		local name = rhMacroName:GetText()
+		if name == rhDB.settings.macroName or string.len(name) == 0 then return end
+		if GetMacroIndexByName(name) == 0 then
+			rhMacroName.Icon:Hide()
+			updateMacroName()
+		end
 	end
 end
 -- Set random Hearthstone
