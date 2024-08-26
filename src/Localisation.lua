@@ -67,7 +67,7 @@ if locale == "zhTW" then
     L["THANKS"] = "感謝您使用我的插件"
     L["DESCRIPTION"] = "在清單中選擇使用的循環爐石玩具"
     L["SELECT_ALL"] = "全選"
-    L["DESELECT_ALL"] = "全不選"
+    L["DESELECT_ALL"] = "取消全選"
     L["OPT_MACRO_ICON"] = "巨集圖示"
     L["COV_ONLY"] = "只允許使用當前誓盟的爐石"
     L["DAL_R_CLICK"] = "滑鼠右鍵點擊使用達拉然爐石"
@@ -77,4 +77,8 @@ if locale == "zhTW" then
     L["SETUP_3"] = "這些設定可以在選項中更改，請輸入 /rh"
     L["RANDOM"] = "隨機"
     L["HEARTHSTONE"] = "爐石"
+    L["MACRO_NOT_FOUND"] = "隨機爐石 - 未找到巨集，正在建立巨集名為 '"
+    L["UPDATE_MACRO_NAME"] = "隨機爐石 - 更新巨集名為 '"
+    L["UNIQUE_NAME_ERROR"] = "使用中的巨集名稱！\n請選擇一個唯一的名字。"
+    L["OPT_MACRO_NAME"] = "巨集名字"
 end
