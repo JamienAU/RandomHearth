@@ -1,3 +1,6 @@
 Add timer for macro update and re-add macro tooltip updates
 Add additional option to customise macro name
 Set macro to randomise on PostClick
+Add additional localisation
+   zhCN - Thank you to [Maple Saint](https://github.com/nanjuekaien1)
+   zhTW - Thank you to [BlueNightSky](https://github.com/BlueNightSky)
