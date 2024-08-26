@@ -85,7 +85,7 @@ local function updateMacro()
 			C_Timer.After(0.1, function()
 				local macroIndex = GetMacroIndexByName(rhDB.settings.macroName)
 				if macroIndex == 0 then
-					print("Random Hearthstone - Macro not found, creating macro named '", rhDB.settings.macroName, "'")
+					print(L["MACRO_NOT_FOUND"], rhDB.settings.macroName, "'")
 					CreateMacro(rhDB.settings.macroName, macroIcon, macroText, nil)
 				else
 					EditMacro(macroIndex, nil, macroIcon, macroText)
@@ -100,11 +100,11 @@ local function updateMacroName()
 	local name = rhMacroName:GetText()
 	local macroIndex = GetMacroIndexByName(rhDB.settings.macroName)
 	if macroIndex == 0 then
-		print("Macro named '", rhDB.settings.macroName, "' not found. Macro will be recreated!")
+		print(L["MACRO_NOT_FOUND"], rhDB.settings.macroName, "'")
 	else
 		EditMacro(macroIndex, name)
 		rhDB.settings.macroName = name
-		print("Random Hearthstone - Updating macro name to '", name, "'")
+		print(L["UPDATE_MACRO_NAME"], name, "'")
 	end
 end
 
@@ -373,7 +373,7 @@ rhDropdown.Texture = rhDropdown:CreateTexture()
 rhDropdown.Texture:SetSize(24, 24)
 rhDropdown.Texture:SetPoint("LEFT", rhDropdown, "RIGHT", -10, 2)
 rhDropdown.Extratext = rhDropdown:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-rhDropdown.Extratext:SetText(L["MACRO_ICON"])
+rhDropdown.Extratext:SetText(L["OPT_MACRO_ICON"])
 rhDropdown.Extratext:SetPoint("BOTTOMLEFT", rhDropdown, "TOPLEFT", 25, 5)
 
 -- Covenant override checkbox
@@ -405,13 +405,13 @@ rhMacroName:SetFontObject("GameFontNormal")
 rhMacroName:SetTextColor(1, 1, 1, 1)
 rhMacroName:SetMaxLetters(30)
 rhMacroName.Text = rhMacroName:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-rhMacroName.Text:SetText("Macro name")
+rhMacroName.Text:SetText(L["OPT_MACRO_NAME"])
 rhMacroName.Text:SetPoint("BOTTOMLEFT", rhMacroName, "TOPLEFT", 0, 5)
 rhMacroName.Exist = rhMacroName:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rhMacroName.Exist:SetTextColor(1, 0, 0, 1)
 rhMacroName.Exist:SetJustifyH("LEFT")
 rhMacroName.Exist:SetPoint("TOPLEFT", rhMacroName, "BOTTOMLEFT", 0, -5)
-rhMacroName.Exist:SetText("Macro name in use!\nPlease pick a unique name.")
+rhMacroName.Exist:SetText(L["UNIQUE_NAME_ERROR"])
 rhMacroName.Exist:Hide()
 rhMacroName.Icon = rhMacroName:CreateTexture(nil, "OVERLAY")
 rhMacroName.Icon:SetPoint("LEFT", rhMacroName, "RIGHT", 5, 0)
