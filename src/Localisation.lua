@@ -50,6 +50,10 @@ if locale == "zhCN" then
     L["SETUP_3"] = "这些设置可以在选项中更改，输入 /rh"
     L["RANDOM"] = "随机"
     L["HEARTHSTONE"] = "炉石"
+    L["MACRO_NOT_FOUND"] = "随机炉石 - 未找到宏，正在创建宏名为 '"
+    L["UPDATE_MACRO_NAME"] = "随机炉石 - 更新宏名为 '"
+    L["UNIQUE_NAME_ERROR"] = "使用中的宏名称！\n请选择一个唯一的名字。"
+    L["OPT_MACRO_NAME"] = "宏名字"
 end
 
 -- zhTW
