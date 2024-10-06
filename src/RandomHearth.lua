@@ -296,8 +296,8 @@ end
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 rhBtn:RegisterForClicks("AnyDown")
 rhBtn:SetAttribute("pressAndHoldAction", true)
-rhBtn:SetAttribute("type", "item")
-rhBtn:SetAttribute("typerelease", "item")
+rhBtn:SetAttribute("type", "toy")
+rhBtn:SetAttribute("typerelease", "toy")
 rhBtn:SetScript("PreClick", function(self, button, isDown)
 	if not combatCheck() then
 		if (button == "2" or button == "RightButton") and rhDB.settings.dalOpt then
