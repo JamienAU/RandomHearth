@@ -202,11 +202,7 @@ local function listGenerate()
 
 	for i, v in pairs(rhDB.L.tList) do
 		if v["status"] == true then
-			if i == 228940 then
-				if C_Item.IsUsableItem(i) then 
-					table.insert(rhList, i)
-				end
-			elseif PlayerHasToy(i) then
+			if PlayerHasToy(i) then
 				local addToy = true
 				-- Check for Covenant
 				for _, k in pairs(covenantHearths) do
