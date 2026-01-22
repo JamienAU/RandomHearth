@@ -1,1 +1,2 @@
-Added combat taint fix - Thanks Pelux
+Update to Midnight pre-patch by SweeD - https://github.com/SweeD
+Many thanks!
