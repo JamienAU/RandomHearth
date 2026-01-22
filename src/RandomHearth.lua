@@ -47,9 +47,8 @@ local rhToys = {
 	245970, -- P.O.S.T Master's Express Hearthstone
 	246565, -- Cosmic Hearthstone
 	263489, -- Naaru's Enfold
-	-- Pending 12.0.0 Midnight release
-	-- 257736, -- Lightcalled Hearthstone
-	-- 265100, -- Corewarden's Hearthstone
+	257736, -- Lightcalled Hearthstone
+	265100, -- Corewarden's Hearthstone
 }
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -77,7 +76,7 @@ local rhDeselectAll = CreateFrame("Button", nil, rhOptionsScroll, "UIPanelButton
 local rhOverride = CreateFrame("CheckButton", nil, rhOptionsScroll, "UICheckButtonTemplate")
 local rhListener = CreateFrame("Frame")
 local rhBtn = CreateFrame("Button", "rhB", nil, "SecureActionButtonTemplate")
-local rhDropdown = CreateFrame("Frame", nil, rhOptionsPanel, "UIDropDownMenuTemplate")
+local rhDropdown = CreateFrame("DropdownButton", nil, rhOptionsPanel, "WowStyle1DropdownTemplate")
 local rhDalHearth = CreateFrame("CheckButton", nil, rhOptionsPanel, "UICheckButtonTemplate")
 local rhGarHearth = CreateFrame("CheckButton", nil, rhOptionsPanel, "UICheckButtonTemplate")
 local rhMacroName = CreateFrame("EditBox", nil, rhOptionsPanel, "InputBoxTemplate")
@@ -266,7 +265,7 @@ local function rhOptionsOkay()
 end
 
 -- Macro icon selection
-local function rhDropDownOnClick(self, arg1)
+local function rhSelectIcon(arg1)
 	if arg1 == "Random" then
 		rhDB.iconOverride.name = L["RANDOM"]
 		rhDB.iconOverride.icon = 134400
@@ -280,9 +279,26 @@ local function rhDropDownOnClick(self, arg1)
 		rhDB.iconOverride.icon = rhDB.L.tList[arg1]["icon"]
 		rhDB.iconOverride.id = arg1
 	end
-	UIDropDownMenu_SetText(rhDropdown, rhDB.iconOverride.name)
+	rhDropdown:SetText(rhDB.iconOverride.name)
 	rhDropdown.Texture:SetTexture(rhDB.iconOverride.icon)
-	CloseDropDownMenus()
+end
+
+-- Dropdown menu generator function
+local function rhDropdownGenerator(dropdown, rootDescription)
+	local function IsSelected(value)
+		if value == "Random" then return rhDB.iconOverride.name == L["RANDOM"] end
+		if value == "Hearthstone" then return rhDB.iconOverride.name == L["HEARTHSTONE"] end
+		return rhDB.iconOverride.id == value
+	end
+
+	rootDescription:CreateRadio(L["RANDOM"], IsSelected, function() rhSelectIcon("Random") end, "Random")
+	rootDescription:CreateRadio(L["HEARTHSTONE"], IsSelected, function() rhSelectIcon("Hearthstone") end, "Hearthstone")
+
+	for i = 1, #rhToys do
+		if rhDB.L.tList[rhToys[i]] ~= nil then
+			rootDescription:CreateRadio(rhDB.L.tList[rhToys[i]]["name"], IsSelected, function() rhSelectIcon(rhToys[i]) end, rhToys[i])
+		end
+	end
 end
 
 -- Add items in savedvariable
@@ -422,13 +438,15 @@ rhDeselectAll:SetScript("OnClick", function(self)
 end)
 
 -- Macro override dropdown
-rhDropdown:SetPoint("TOPRIGHT", rhOverride:GetParent(), "BOTTOMRIGHT", 0, -35)
-rhDropdown.Texture = rhDropdown:CreateTexture()
+rhDropdown:SetPoint("TOPRIGHT", rhOverride:GetParent(), "BOTTOMRIGHT", -20, -35)
+rhDropdown:SetWidth(200)
+rhDropdown:SetDefaultText(L["RANDOM"])
+rhDropdown.Texture = rhDropdown:CreateTexture(nil, "OVERLAY")
 rhDropdown.Texture:SetSize(24, 24)
-rhDropdown.Texture:SetPoint("LEFT", rhDropdown, "RIGHT", -10, 2)
+rhDropdown.Texture:SetPoint("LEFT", rhDropdown, "RIGHT", 5, 0)
 rhDropdown.Extratext = rhDropdown:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 rhDropdown.Extratext:SetText(L["OPT_MACRO_ICON"])
-rhDropdown.Extratext:SetPoint("BOTTOMLEFT", rhDropdown, "TOPLEFT", 25, 5)
+rhDropdown.Extratext:SetPoint("BOTTOMLEFT", rhDropdown, "TOPLEFT", 0, 5)
 
 -- Covenant override checkbox
 rhOverride:SetPoint("TOPLEFT", rhOverride:GetParent(), "BOTTOMLEFT", 15, -50)
@@ -620,28 +638,8 @@ rhListener:SetScript("OnEvent", function(self, event, arg1)
 		rhDalHearth:SetChecked(rhDB.settings.dalOpt)
 		rhGarHearth:SetChecked(rhDB.settings.garOpt)
 		rhDropdown.Texture:SetTexture(rhDB.iconOverride.icon)
-		UIDropDownMenu_SetText(rhDropdown, rhDB.iconOverride.name)
-		UIDropDownMenu_SetWidth(rhDropdown, 200)
-		UIDropDownMenu_SetAnchor(rhDropdown, 0, 0, "BOTTOM", rhDropdown, "TOP")
-		UIDropDownMenu_Initialize(rhDropdown, function(self)
-			local info = UIDropDownMenu_CreateInfo()
-			info.func, info.topPadding, info.tSizeX, info.tSizeY = rhDropDownOnClick, 3, 15, 15
-			info.arg1, info.text, info.checked, info.icon = "Random", L["Random"], rhDB.iconOverride.name == L["Random"],
-				134400
-			UIDropDownMenu_AddButton(info)
-			info.arg1, info.text, info.checked, info.icon = "Hearthstone", L["Hearthstone"],
-				rhDB.iconOverride.name == L["Hearthstone"], 134414
-			UIDropDownMenu_AddButton(info)
-			for i = 1, #rhToys do
-				if rhDB.L.tList[rhToys[i]] ~= nil then
-					info.arg1 = rhToys[i]
-					info.text = rhDB.L.tList[rhToys[i]]["name"]
-					info.checked = rhDB.iconOverride.name == rhDB.L.tList[rhToys[i]]["name"]
-					info.icon = rhDB.L.tList[rhToys[i]]["icon"]
-					UIDropDownMenu_AddButton(info)
-				end
-			end
-		end)
+		rhDropdown:SetText(rhDB.iconOverride.name)
+		rhDropdown:SetupMenu(rhDropdownGenerator)
 
 		self:UnregisterEvent("ADDON_LOADED")
 	end
