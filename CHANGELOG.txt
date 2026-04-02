@@ -1,2 +1,1 @@
-Update to Midnight pre-patch by SweeD - https://github.com/SweeD
-Many thanks!
+Added Preyseeker's Hearthstone, thanks Daz-vg!
