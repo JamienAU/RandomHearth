@@ -1,7 +1,7 @@
-## Interface: 120001
+## Interface: 120005
 ## Title: Random Hearthstone
 ## Author: JamienAU
-## Version: r32
+## Version: r33
 ## Notes: Uses a random hearthstone toy
 ## SavedVariables: rhDB
 ## IconTexture: Interface\Icons\Inv_misc_rune_01
