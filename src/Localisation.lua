@@ -80,3 +80,30 @@ if locale == "zhTW" then
     L["UNIQUE_NAME_ERROR"] = "使用中的巨集名稱！\n請選擇一個唯一的名字。"
     L["OPT_MACRO_NAME"] = "巨集名字"
 end
+
+-- ptBR
+if locale == "ptBR" then
+    L = L or {}
+    L["ADDON_NAME"] = "Pedra de Regresso Instável"
+    L["NO_VALID_CHOSEN"] = "|cff42E400Pedra de Regresso Instável|r - Brinquedo inválido. Voltando para Pedra de Regresso padrão."
+    L["MACRO_NAME"] = "Pedra Instável"
+    L["RENOWN_LOCKED"] = "Renome bloqueado"
+    L["THANKS"] = "Obrigado por usar meu addon"
+    L["DESCRIPTION"] = "Adiciona ou remove Pedras da rotação"
+    L["SELECT_ALL"] = "Marcar tudo"
+    L["DESELECT_ALL"] = "Desmarcar tudo"
+    L["OPT_MACRO_ICON"] = "Ícone da macro"
+    L["COV_ONLY"] = "Permitir apenas Pedra de Regresso do Pacto do jogador"
+    L["DAL_R_CLICK"] = "Use a Pedra de Dalaran com botão direito do mouse"
+    L["GAR_M_CLICK"] = "Use a Pedra da Guarnição com botão do meio do mouse"
+    L["SETUP_1"] = "Configurando o banco de dados da Pedra de Regresso Incerta."
+    L["SETUP_2"] = "Você pode usar a pedra de Dalaran com o botão direito e a pedra da Guarnição com o botão do meio do mouse."
+    L["SETUP_3"] = "Estas configurações podem ser modificadas nas opções, digite /rh."
+    L["RANDOM"] = "Instável"
+    L["HEARTHSTONE"] = "Pedra de Regresso"
+    L["MACRO_NOT_FOUND"] = "|cff42E400Pedra de Regresso Instável|r - Macro não encontrada, criando a macro '"
+    L["UPDATE_MACRO_NAME"] = "|cff42E400Pedra de Regresso Instável|r - Atualizando nome da macro para '"
+    L["UNIQUE_NAME_ERROR"] = "Nome da macro em uso!\nPor favor escolha um nome diferente."
+    L["OPT_MACRO_NAME"] = "Nome da macro"
+    L["LOGIN_MESSAGE"] = "|cff42E400Pedra de Regresso Instável|r - Nome da macro pode ser customizada. Digite /rh para as opções."
+end
