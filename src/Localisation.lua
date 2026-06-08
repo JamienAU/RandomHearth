@@ -96,7 +96,7 @@ if locale == "ptBR" then
     L["COV_ONLY"] = "Permitir apenas Pedra de Regresso do Pacto do jogador"
     L["DAL_R_CLICK"] = "Use a Pedra de Dalaran com botão direito do mouse"
     L["GAR_M_CLICK"] = "Use a Pedra da Guarnição com botão do meio do mouse"
-    L["SETUP_1"] = "Configurando o banco de dados da Pedra de Regresso Incerta."
+    L["SETUP_1"] = "Configurando o banco de dados da Pedra de Regresso Instável."
     L["SETUP_2"] = "Você pode usar a pedra de Dalaran com o botão direito e a pedra da Guarnição com o botão do meio do mouse."
     L["SETUP_3"] = "Estas configurações podem ser modificadas nas opções, digite /rh."
     L["RANDOM"] = "Instável"
