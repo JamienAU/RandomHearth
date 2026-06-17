@@ -45,7 +45,7 @@ if locale == "zhCN" then
 	L["DAL_R_CLICK"] = "右键点击宏时使用达拉然炉石"
 	L["GAR_M_CLICK"] = "中键点击宏时使用要塞炉石"
 	L["SETUP_1"] = "正在初始化Random Hearthstone数据库。"
-	L["SETUP_2"] = "现在您可以右键使用达拉然炉石，中键使用要塞炉石。"
+	L["SETUP_2"] = "现在您可以使用右键达拉然炉石，中键要塞炉石。"
 	L["SETUP_3"] = "这些设置可以随时通过输入 /rh 进行修改。"
 	L["RANDOM"] = "随机"
 	L["HEARTHSTONE"] = "炉石"
