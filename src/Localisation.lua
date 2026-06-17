@@ -33,11 +33,11 @@ L["LOGIN_MESSAGE"] = "|cff42E400Random Hearthstone|r - Macro name can now be cus
 if locale == "zhCN" then
 	L = L or {}
 	L["ADDON_NAME"] = "Random Hearthstone"
-	L["NO_VALID_CHOSEN"] = "|cff42E400Random Hearthstone|r - 未选择任何有效的玩具。宏将被设置为使用炉石"
+	L["NO_VALID_CHOSEN"] = "|cff42E400Random Hearthstone|r - 未选择炉石玩具，宏已设置为使用炉石。"
 	L["MACRO_NAME"] = "随机炉石"
 	L["RENOWN_LOCKED"] = "盟约未解锁"
 	L["THANKS"] = "感谢您使用我的插件"
-	L["DESCRIPTION"] = "将炉石玩具添加到随机循环中，或从中移除"
+	L["DESCRIPTION"] = "将炉石玩具添加或移除随机循环"
 	L["SELECT_ALL"] = "全部启用"
 	L["DESELECT_ALL"] = "全部禁用"
 	L["OPT_MACRO_ICON"] = "宏图标"
